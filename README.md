@@ -3,14 +3,14 @@ Test infrastructure for AD FS 2.
 
 ## Installation
 ### Create Domain Controller
-First create the domain controller
+First create the AD domain controller
 
 ```bash
 ./build-dc.sh
 ```
 
 The guest will reboot twice until all features are up and running. After that
-the domain `windomain` is up and running at IP address `192.168.33.2`.
+the domain `windomain.local` is up and running at IP address `192.168.33.2`.
 
 ### Create AD FS2 Server
 This guest will join the domain and install the ADFS2.
@@ -47,7 +47,7 @@ vagrant halt dc
 ```
 
 ## TODO
-Rebooting the windows guest while provisioning could be done with https://github.com/exratione/vagrant-provision-reboot
+Rebooting the windows guest while provisioning could be done with [vagrant-provision-reboot](https://github.com/exratione/vagrant-provision-reboot) plugin.
 But this plugin does not work with my Vagrant 1.5.1 installation. But with something like that we could get rid
 of the build host scripts and customize everything inside the Vagrantfile.
 
