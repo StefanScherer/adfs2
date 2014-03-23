@@ -5,34 +5,46 @@ Test infrastructure for AD FS 2.
 ### Create Domain Controller
 First create the domain controller
 
-    ./build-dc.sh
+```bash
+./build-dc.sh
+```
 
-The guest will reboot twice until all features are up and running.
+The guest will reboot twice until all features are up and running. After that
+the domain `windomain` is up and running at IP address `192.168.33.2`.
 
 ### Create AD FS2 Server
 This guest will join the domain and install the ADFS2.
 
-    ./build-adfs2.sh
+```bash
+./build-adfs2.sh
+```
 
 The guest will reboot twice until all features are up and running.
+I don't know if the ADFS2 is set up correctly. I just managed the domain join.
 
 ### Create Windows 7 Client
 This guest will join the domain.
 
-    ./build-win7.sh
+```bash
+./build-win7.sh
+```
 
 The guest will reboot twice until all features are up and running.
+Notice: The auto login of Vagrant logs in with the local user account `vagrant`.
+You may log off and switch user to `windomain\vagrant` user which is a domain user.
 
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
 Domain Controller should be started first and stopped last.
 
-    vagrant up dc
-    vagrant up adfs2
-    vagrant up win7
-    vagrant halt win7
-    vagrant halt adfs2
-    vagrant halt dc
+```bash
+vagrant up dc
+vagrant up adfs2
+vagrant up win7
+vagrant halt win7
+vagrant halt adfs2
+vagrant halt dc
+```
 
 ## TODO
 Rebooting the windows guest while provisioning could be done with https://github.com/exratione/vagrant-provision-reboot
