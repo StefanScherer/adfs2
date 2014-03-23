@@ -12,7 +12,6 @@ Vagrant.configure("2") do |config|
     dc.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
     dc.vm.network :private_network, ip: "192.168.33.2", gateway: "192.168.33.1"
 
-    # first reboot due to hostname change
     dc.vm.provision "shell", path: "scripts/install-dc.ps1"
 
     dc.vm.provider :virtualbox do |vb, override|
@@ -35,7 +34,6 @@ Vagrant.configure("2") do |config|
     adfs2.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
     adfs2.vm.network :private_network, ip: "192.168.33.3", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    # first reboot due to hostname change
     adfs2.vm.provision "shell", path: "scripts/install-adfs2.ps1"
 
     adfs2.vm.provider :virtualbox do |vb, override|
@@ -56,9 +54,9 @@ Vagrant.configure("2") do |config|
     win7.windows.set_work_network = true
     win7.vm.guest = :windows 
     win7.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+#    win7.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     win7.vm.network :private_network, ip: "192.168.33.4", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    # first reboot due to hostname change
     win7.vm.provision "shell", path: "scripts/install-win7.ps1"
 
     win7.vm.provider :virtualbox do |vb, override|
