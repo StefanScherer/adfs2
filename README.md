@@ -35,5 +35,7 @@ Domain Controller should be started first and stopped last.
     vagrant halt dc
 
 ## TODO
-Rebooting the windows guest while provisioning is done with https://github.com/exratione/vagrant-provision-reboot
+Rebooting the windows guest while provisioning could be done with https://github.com/exratione/vagrant-provision-reboot
+But this plugin does not work with my Vagrant 1.5.1 installation. But with something like that we could get rid
+of the build host scripts and customize everything inside the Vagrantfile.
 
