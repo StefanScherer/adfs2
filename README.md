@@ -22,6 +22,17 @@ This guest will join the domain and install the ADFS2.
 The guest will reboot twice until all features are up and running.
 I don't know if the ADFS2 is set up correctly. I just managed the domain join.
 
+### Create Web Server
+This guest will join the domain and set up an IIS Web Server on host `web`.
+
+```bash
+./build-web.sh
+```
+
+The guest will reboot twice until all features are up and running.
+Notice: The auto login of Vagrant logs in with the local user account `vagrant`.
+You may log off and switch user to `windomain\vagrant` user which is a domain user.
+
 ### Create Windows 7 Client
 This guest will join the domain.
 
@@ -40,8 +51,10 @@ Domain Controller should be started first and stopped last.
 ```bash
 vagrant up dc
 vagrant up adfs2
+vagrant up web
 vagrant up win7
 vagrant halt win7
+vagrant halt web
 vagrant halt adfs2
 vagrant halt dc
 ```
