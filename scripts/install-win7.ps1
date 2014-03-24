@@ -1,2 +1,2 @@
-# ... do another installations after domain join here
+  . c:\vagrant\scripts\dis-updates.ps1
 

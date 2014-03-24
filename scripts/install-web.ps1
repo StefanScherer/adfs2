@@ -6,8 +6,7 @@ Write-Host 'Install IIS'
 # --------------------------------------------------------------------
 $InetPubRoot = "C:\Inetpub"
 $InetPubLog = "C:\Inetpub\Log"
-$InetPubWWWRoot = "C:\Inetpub\WWW"
-$InetPubWWWRootNew = "C:\Inetpub\WWWRoot"
+$InetPubWWWRoot = "C:\Inetpub\WWWRoot"
 
 # --------------------------------------------------------------------
 # Loading Feature Installation Modules
@@ -29,19 +28,19 @@ Import-Module WebAdministration
 # --------------------------------------------------------------------
 New-Item -Path $InetPubRoot -type directory -Force -ErrorAction SilentlyContinue
 New-Item -Path $InetPubLog -type directory -Force -ErrorAction SilentlyContinue
-New-Item -Path $InetPubWWWRootNew -type directory -Force -ErrorAction SilentlyContinue
+New-Item -Path $InetPubWWWRoot -type directory -Force -ErrorAction SilentlyContinue
 
 # --------------------------------------------------------------------
 # Copying old WWW Root data to new folder
 # --------------------------------------------------------------------
 $InetPubOldLocation = @(get-website)[0].physicalPath.ToString()
 $InetPubOldLocation =  $InetPubOldLocation.Replace("%SystemDrive%",$env:SystemDrive)
-Copy-Item -Path $InetPubOldLocation -Destination $InetPubRoot -Force -Recurse
+# Copy-Item -Path $InetPubOldLocation -Destination $InetPubRoot -Force -Recurse
 
 # --------------------------------------------------------------------
 # Setting directory access
 # --------------------------------------------------------------------
-$Command = "icacls $InetPubWWWRootNew /grant BUILTIN\IIS_IUSRS:(OI)(CI)(RX) BUILTIN\Users:(OI)(CI)(RX)"
+$Command = "icacls $InetPubWWWRoot /grant BUILTIN\IIS_IUSRS:(OI)(CI)(RX) BUILTIN\Users:(OI)(CI)(RX)"
 cmd.exe /c $Command
 $Command = "icacls $InetPubLog /grant ""NT SERVICE\TrustedInstaller"":(OI)(CI)(F)"
 cmd.exe /c $Command
@@ -58,7 +57,7 @@ $Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicat
 cmd.exe /c $Command
 
 #Changing the Default Website location
-Set-ItemProperty 'IIS:\Sites\Default Web Site' -name physicalPath -value $InetPubWWWRootNew
+Set-ItemProperty 'IIS:\Sites\Default Web Site' -name physicalPath -value $InetPubWWWRoot
 
 # --------------------------------------------------------------------
 # Checking to prevent common errors
@@ -70,7 +69,7 @@ If (!(Test-Path "C:\inetpub\temp\apppools")) {
 # --------------------------------------------------------------------
 # Deleting Old WWWRoot
 # --------------------------------------------------------------------
-Remove-Item $InetPubOldLocation -Recurse -Force
+# Remove-Item $InetPubOldLocation -Recurse -Force
 
 # --------------------------------------------------------------------
 # Resetting IIS
