@@ -1,3 +1,8 @@
+@echo off
+if "%1x"=="x" (
+  echo Usage: %~n0 {boxname}
+  goto :EOF 
+)
 echo starting %1 for first time without provision to set hostname
 call vagrant destroy %1 -f
 call vagrant up %1 --provision

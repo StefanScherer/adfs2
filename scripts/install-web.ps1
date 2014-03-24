@@ -76,4 +76,3 @@ Remove-Item $InetPubOldLocation -Recurse -Force
 # --------------------------------------------------------------------
 $Command = "IISRESET"
 Invoke-Expression -Command $Command
-}
