@@ -54,6 +54,7 @@ Vagrant.configure("2") do |config|
     web.windows.set_work_network = true
     web.vm.guest = :windows 
     web.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    web.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
     web.vm.network :private_network, ip: "192.168.33.4", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     web.vm.provision "shell", path: "scripts/install-web.ps1"
