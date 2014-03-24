@@ -1,100 +1,79 @@
-if ($env:COMPUTERNAME -imatch 'vagrant') {
+Write-Host 'Install IIS'
 
-  Write-Host 'Hostname is still the original one, skip provisioning for reboot'
+# from http://stackoverflow.com/questions/10522240/powershell-script-to-auto-install-of-iis-7-and-above
+# --------------------------------------------------------------------
+# Define the variables.
+# --------------------------------------------------------------------
+$InetPubRoot = "C:\Inetpub"
+$InetPubLog = "C:\Inetpub\Log"
+$InetPubWWWRoot = "C:\Inetpub\WWWRoot"
 
-  Write-Host 'Install bginfo'
-  . c:\vagrant\scripts\install-bginfo.ps1
+# --------------------------------------------------------------------
+# Loading Feature Installation Modules
+# --------------------------------------------------------------------
+Import-Module ServerManager 
 
-  Write-Host -fore red 'Hint: vagrant reload web --provision'
+# --------------------------------------------------------------------
+# Installing IIS
+# --------------------------------------------------------------------
+Add-WindowsFeature -Name Web-Common-Http,Web-Asp-Net,Web-Net-Ext,Web-ISAPI-Ext,Web-ISAPI-Filter,Web-Http-Logging,Web-Request-Monitor,Web-Basic-Auth,Web-Windows-Auth,Web-Filtering,Web-Performance,Web-Mgmt-Console,Web-Mgmt-Compat,RSAT-Web-Server,WAS -IncludeAllSubFeature
 
-} elseif ((gwmi win32_computersystem).partofdomain -eq $false) {
+# --------------------------------------------------------------------
+# Loading IIS Modules
+# --------------------------------------------------------------------
+Import-Module WebAdministration
 
-  Write-Host -fore red "Ooops, workgroup!"
+# --------------------------------------------------------------------
+# Creating IIS Folder Structure
+# --------------------------------------------------------------------
+New-Item -Path $InetPubRoot -type directory -Force -ErrorAction SilentlyContinue
+New-Item -Path $InetPubLog -type directory -Force -ErrorAction SilentlyContinue
+New-Item -Path $InetPubWWWRoot -type directory -Force -ErrorAction SilentlyContinue
 
-  . c:\vagrant\scripts\join-domain.ps1
+# --------------------------------------------------------------------
+# Copying old WWW Root data to new folder
+# --------------------------------------------------------------------
+$InetPubOldLocation = @(get-website)[0].physicalPath.ToString()
+$InetPubOldLocation =  $InetPubOldLocation.Replace("%SystemDrive%",$env:SystemDrive)
+Copy-Item -Path $InetPubOldLocation -Destination $InetPubRoot -Force -Recurse
 
-  Write-Host -fore red 'Hint: vagrant reload web --provision'
+# --------------------------------------------------------------------
+# Setting directory access
+# --------------------------------------------------------------------
+$Command = "icacls $InetPubWWWRoot /grant BUILTIN\IIS_IUSRS:(OI)(CI)(RX) BUILTIN\Users:(OI)(CI)(RX)"
+cmd.exe /c $Command
+$Command = "icacls $InetPubLog /grant ""NT SERVICE\TrustedInstaller"":(OI)(CI)(F)"
+cmd.exe /c $Command
 
-} else {
+# --------------------------------------------------------------------
+# Setting IIS Variables
+# --------------------------------------------------------------------
+#Changing Log Location
+$Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/sites -siteDefaults.logfile.directory:$InetPubLog"
+cmd.exe /c $Command
+$Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/log -centralBinaryLogFile.directory:$InetPubLog"
+cmd.exe /c $Command
+$Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/log -centralW3CLogFile.directory:$InetPubLog"
+cmd.exe /c $Command
 
-  Write-Host -fore green "I am domain joined!"
+#Changing the Default Website location
+Set-ItemProperty 'IIS:\Sites\Default Web Site' -name physicalPath -value $InetPubWWWRoot
 
-  Write-Host 'Provisioning after joining domain'
+# --------------------------------------------------------------------
+# Checking to prevent common errors
+# --------------------------------------------------------------------
+If (!(Test-Path "C:\inetpub\temp\apppools")) {
+  New-Item -Path "C:\inetpub\temp\apppools" -type directory -Force -ErrorAction SilentlyContinue
+}
 
-  # from http://stackoverflow.com/questions/10522240/powershell-script-to-auto-install-of-iis-7-and-above
-  # --------------------------------------------------------------------
-  # Define the variables.
-  # --------------------------------------------------------------------
-  $InetPubRoot = "C:\Inetpub"
-  $InetPubLog = "C:\Inetpub\Log"
-  $InetPubWWWRoot = "C:\Inetpub\WWWRoot"
+# --------------------------------------------------------------------
+# Deleting Old WWWRoot
+# --------------------------------------------------------------------
+Remove-Item $InetPubOldLocation -Recurse -Force
 
-  # --------------------------------------------------------------------
-  # Loading Feature Installation Modules
-  # --------------------------------------------------------------------
-  Import-Module ServerManager 
-
-  # --------------------------------------------------------------------
-  # Installing IIS
-  # --------------------------------------------------------------------
-  Add-WindowsFeature -Name Web-Common-Http,Web-Asp-Net,Web-Net-Ext,Web-ISAPI-Ext,Web-ISAPI-Filter,Web-Http-Logging,Web-Request-Monitor,Web-Basic-Auth,Web-Windows-Auth,Web-Filtering,Web-Performance,Web-Mgmt-Console,Web-Mgmt-Compat,RSAT-Web-Server,WAS -IncludeAllSubFeature
-
-  # --------------------------------------------------------------------
-  # Loading IIS Modules
-  # --------------------------------------------------------------------
-  Import-Module WebAdministration
-
-  # --------------------------------------------------------------------
-  # Creating IIS Folder Structure
-  # --------------------------------------------------------------------
-  New-Item -Path $InetPubRoot -type directory -Force -ErrorAction SilentlyContinue
-  New-Item -Path $InetPubLog -type directory -Force -ErrorAction SilentlyContinue
-  New-Item -Path $InetPubWWWRoot -type directory -Force -ErrorAction SilentlyContinue
-
-  # --------------------------------------------------------------------
-  # Copying old WWW Root data to new folder
-  # --------------------------------------------------------------------
-  $InetPubOldLocation = @(get-website)[0].physicalPath.ToString()
-  $InetPubOldLocation =  $InetPubOldLocation.Replace("%SystemDrive%",$env:SystemDrive)
-  Copy-Item -Path $InetPubOldLocation -Destination $InetPubRoot -Force -Recurse
-
-  # --------------------------------------------------------------------
-  # Setting directory access
-  # --------------------------------------------------------------------
-  $Command = "icacls $InetPubWWWRoot /grant BUILTIN\IIS_IUSRS:(OI)(CI)(RX) BUILTIN\Users:(OI)(CI)(RX)"
-  cmd.exe /c $Command
-  $Command = "icacls $InetPubLog /grant ""NT SERVICE\TrustedInstaller"":(OI)(CI)(F)"
-  cmd.exe /c $Command
-
-  # --------------------------------------------------------------------
-  # Setting IIS Variables
-  # --------------------------------------------------------------------
-  #Changing Log Location
-  $Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/sites -siteDefaults.logfile.directory:$InetPubLog"
-  cmd.exe /c $Command
-  $Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/log -centralBinaryLogFile.directory:$InetPubLog"
-  cmd.exe /c $Command
-  $Command = "%windir%\system32\inetsrv\appcmd set config -section:system.applicationHost/log -centralW3CLogFile.directory:$InetPubLog"
-  cmd.exe /c $Command
-
-  #Changing the Default Website location
-  Set-ItemProperty 'IIS:\Sites\Default Web Site' -name physicalPath -value $InetPubWWWRoot
-
-  # --------------------------------------------------------------------
-  # Checking to prevent common errors
-  # --------------------------------------------------------------------
-  If (!(Test-Path "C:\inetpub\temp\apppools")) {
-    New-Item -Path "C:\inetpub\temp\apppools" -type directory -Force -ErrorAction SilentlyContinue
-  }
-
-  # --------------------------------------------------------------------
-  # Deleting Old WWWRoot
-  # --------------------------------------------------------------------
-  Remove-Item $InetPubOldLocation -Recurse -Force
-
-  # --------------------------------------------------------------------
-  # Resetting IIS
-  # --------------------------------------------------------------------
-  $Command = "IISRESET"
-  Invoke-Expression -Command $Command
+# --------------------------------------------------------------------
+# Resetting IIS
+# --------------------------------------------------------------------
+$Command = "IISRESET"
+Invoke-Expression -Command $Command
 }

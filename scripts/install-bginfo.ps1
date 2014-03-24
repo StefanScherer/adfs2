@@ -1,4 +1,3 @@
-
 if (!(Test-Path "$env:TEMP\bginfo.exe")) {
   (New-Object Net.WebClient).DownloadFile('http://live.sysinternals.com/bginfo.exe', "$env:TEMP\bginfo.exe")
 }
