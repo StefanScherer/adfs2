@@ -13,7 +13,7 @@ The following boxes could be created:
 First create the AD domain controller
 
 ```bash
-./build-dc.sh
+./build.sh dc
 ```
 
 The guest will reboot twice until all features are up and running. After that
@@ -23,7 +23,7 @@ the domain `windomain.local` is up and running at IP address `192.168.33.2`.
 This guest will join the domain and install the ADFS2.
 
 ```bash
-./build-adfs2.sh
+./build.sh adfs2
 ```
 
 The guest will reboot twice until all features are up and running.
@@ -33,7 +33,7 @@ I don't know if the ADFS2 is set up correctly. I just managed the domain join.
 This guest will join the domain and set up an IIS Web Server on host `web`.
 
 ```bash
-./build-web.sh
+./build.sh web
 ```
 
 The guest will reboot twice until all features are up and running.
@@ -44,7 +44,7 @@ You may log off and switch user to `windomain\vagrant` user which is a domain us
 This guest will join the domain.
 
 ```bash
-./build-win7.sh
+./build.sh win7
 ```
 
 The guest will reboot twice until all features are up and running.
