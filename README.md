@@ -1,6 +1,13 @@
 # Test AD FS 2
 Test infrastructure for AD FS 2.
 
+The following boxes could be created:
+
+1. `dc` : The Active Directory Domain controller
+2. `adfs2` : The Active Directory Federation Service
+3. `web`: The Web Server running IIS
+4. `win7`: A Windows 7 end user 
+
 ## Installation
 ### Create Domain Controller
 First create the AD domain controller
