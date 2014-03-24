@@ -2,27 +2,16 @@ if ($env:COMPUTERNAME -imatch 'vagrant') {
 
   Write-Host 'Hostname is still the original one, skip provisioning for reboot'
 
+  Write-Host 'Install bginfo'
+  . c:\vagrant\scripts\install-bginfo.ps1
+
   Write-Host -fore red 'Hint: vagrant reload web --provision'
 
 } elseif ((gwmi win32_computersystem).partofdomain -eq $false) {
 
   Write-Host -fore red "Ooops, workgroup!"
 
-  Write-Host 'Join the domain'
-
-  Start-Sleep -m 2000
-
-  Write-Host "First, set DNS to DC to join the domain"
-  & 'netsh' 'interface' 'ipv4' 'add' 'dnsserver' 'Local Area Connection 2' 'address=192.168.33.2' 'index=1'
-
-  Start-Sleep -m 2000
-
-  Write-Host "Now join the domain"
-
-  $user = "windomain.local\vagrant" 
-  $pass = ConvertTo-SecureString "vagrant" -AsPlainText -Force 
-  $DomainCred = New-Object System.Management.Automation.PSCredential $user, $pass 
-  Add-Computer -DomainName "windomain.local" -credential $DomainCred -PassThru
+  . c:\vagrant\scripts\join-domain.ps1
 
   Write-Host -fore red 'Hint: vagrant reload web --provision'
 
@@ -36,9 +25,9 @@ if ($env:COMPUTERNAME -imatch 'vagrant') {
   # --------------------------------------------------------------------
   # Define the variables.
   # --------------------------------------------------------------------
-  $InetPubRoot = "D:\Inetpub"
-  $InetPubLog = "D:\Inetpub\Log"
-  $InetPubWWWRoot = "D:\Inetpub\WWWRoot"
+  $InetPubRoot = "C:\Inetpub"
+  $InetPubLog = "C:\Inetpub\Log"
+  $InetPubWWWRoot = "C:\Inetpub\WWWRoot"
 
   # --------------------------------------------------------------------
   # Loading Feature Installation Modules
