@@ -9,6 +9,11 @@ The following boxes could be created:
 4. `win7`: A Windows 7 end user 
 
 ## Installation
+To build the boxes, use the `build.sh` or `build.bat` script with the box name.
+Each box will be reboot twice until all features are up and running.
+If you accidentally called `vagrant up boxname` instead, just watch out for the hint line
+and enter the `vagrant reload boxname --provision` command until there is no more hint.
+
 ### Create Domain Controller
 First create the AD domain controller
 
@@ -16,8 +21,7 @@ First create the AD domain controller
 ./build.sh dc
 ```
 
-The guest will reboot twice until all features are up and running. After that
-the domain `windomain.local` is up and running at IP address `192.168.33.2`.
+After that the domain `windomain.local` is up and running at IP address `192.168.33.2`.
 
 ### Create AD FS2 Server
 This guest will join the domain and install the ADFS2.
@@ -26,7 +30,6 @@ This guest will join the domain and install the ADFS2.
 ./build.sh adfs2
 ```
 
-The guest will reboot twice until all features are up and running.
 I don't know if the ADFS2 is set up correctly. I just managed the domain join.
 
 ### Create Web Server
@@ -36,9 +39,11 @@ This guest will join the domain and set up an IIS Web Server on host `web`.
 ./build.sh web
 ```
 
-The guest will reboot twice until all features are up and running.
-Notice: The auto login of Vagrant logs in with the local user account `vagrant`.
-You may log off and switch user to `windomain\vagrant` user which is a domain user.
+After installation, you have an IIS 7 Web Server, but also an [iisnode](https://github.com/tjanczuk/iisnode) with Node.js up and running.
+
+* [http://web.windomain.local/](http://localhost:8080/)
+* [http://web.windomain.local/node](http://localhost:8080/node)
+
 
 ### Create Windows 7 Client
 This guest will join the domain.
@@ -48,8 +53,6 @@ This guest will join the domain.
 ```
 
 The guest will reboot twice until all features are up and running.
-Notice: The auto login of Vagrant logs in with the local user account `vagrant`.
-You may log off and switch user to `windomain\vagrant` user which is a domain user.
 
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
