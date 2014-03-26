@@ -1,0 +1,38 @@
+Import-Module ActiveDirectory
+Try {
+  NEW-ADOrganizationalUnit -name "IT-Services"
+} Catch {}
+Try {
+  NEW-ADOrganizationalUnit -name "ServiceAccounts" -path "OU=IT-Services,DC=windomain,DC=local"
+} Catch {}
+
+$identity = "jb7"
+$password = 'MyPa$sw0rd'
+
+Remove-ADUser -Identity $identity -Confirm:$false
+
+New-ADUser -SamAccountName $identity -GivenName "JBoss7 SSO" -Surname "JBoss7 SSO" -Name "JBoss 7 SSO" `
+  -CannotChangePassword $true -PasswordNeverExpires $true -Enabled $true `
+  -Path "OU=ServiceAccounts,OU=IT-Services,DC=windomain,DC=local" `
+  -AccountPassword (ConvertTo-SecureString -AsPlainText $password -Force)
+
+# http://www.jeffgeiger.com/wiki/index.php/PowerShell/ADUnixImport
+Get-ADUser -Identity $identity | Set-ADAccountControl -DoesNotRequirePreAuth:$true
+
+# create keytab
+
+New-Item -Path c:\vagrant\resources -type directory -Force -ErrorAction SilentlyContinue
+If (Test-Path c:\vagrant\resources\$identity.keytab) {
+  Remove-Item c:\vagrant\resources\$identity.keytab
+}
+
+& ktpass -out c:\vagrant\resources\$identity.keytab -princ 'HTTP/WEB.windomain.local@WINDOMAIN.LOCAL' -mapUser "WINDOMAIN\$identity" -mapOp set -pass $password  -crypto RC4-HMAC-NT
+
+If (Test-Path c:\vagrant\resources\$identity.keytab) {
+  Write-Host -fore green "Keytab created for user $identity at c:\vagrant\resources\$identity.keytab"
+
+  & setspn -l $identity
+} else {
+  Write-Host -fore red "Keytab not created"
+}
+
