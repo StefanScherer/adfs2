@@ -15,5 +15,5 @@ $vbsScript | Out-File 'c:\Program Files\sysinternals\bginfo.vbs'
 
 Copy-Item "C:\vagrant\scripts\bginfo.bgi" 'c:\Program Files\sysinternals\bginfo.bgi'
 
-Set-ItemProperty HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run -Name bginfo -Value 'wscript "c:\Program Files\sysinternals\bginfo.vbs"'
+Set-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run -Name bginfo -Value 'wscript "c:\Program Files\sysinternals\bginfo.vbs"'
 
