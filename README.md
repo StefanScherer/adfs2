@@ -22,6 +22,9 @@ First create the AD domain controller
 ```
 
 After that the domain `windomain.local` is up and running at IP address `192.168.33.2`.
+Some users will be created from the `users.csv` file.
+A special service user will be created for JBoss7 integration and its keytab file for SSO.
+
 
 ### Create AD FS2 Server
 This guest will join the domain and install the ADFS2.
