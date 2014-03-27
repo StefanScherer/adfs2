@@ -80,8 +80,8 @@ $XmlFile = $env:Temp + "\SealSetup.xml"
 Write-Host "Write Task to $XmlFile"
 $xml | Out-File $XmlFile
 
-
 If (-not (Test-Path c:\seal\customer\server\jboss\conf)) {
+  Write-Host "Preinstalling some customer files"
   New-Item -Path c:\seal\customer\server\jboss\conf -ItemType directory
 
   If (Test-Path c:\vagrant\resources\jb7nd451.keytab) {
@@ -109,4 +109,7 @@ If (Test-Path $SealSetupInstaller) {
   & schtasks /Create /TN SealSetup /XML $XmlFile
   & schtasks /Run /TN SealSetup
 }
+
+Write-Host "Opening Firewall"
+& netsh advfirewall firewall add rule name="JBoss7 Port 8080" dir=in action=allow protocol=TCP localport=8080
 
