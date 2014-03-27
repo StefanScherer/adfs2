@@ -80,6 +80,25 @@ $XmlFile = $env:Temp + "\SealSetup.xml"
 Write-Host "Write Task to $XmlFile"
 $xml | Out-File $XmlFile
 
+
+If (-not (Test-Path c:\seal\customer\server\jboss\conf)) {
+  New-Item -Path c:\seal\customer\server\jboss\conf -ItemType directory
+
+  If (Test-Path c:\vagrant\resources\jb7nd451.keytab) {
+    Write-Host -fore green "Copy Keytab file from c:\vagrant\resources\jb7nd451.keytab"
+    Copy-Item c:\vagrant\resources\jb7nd451.keytab c:\seal\customer\server\jboss\conf\jb7nd451.keytab -Confirm:$false
+  } else {
+    Write-Host -fore red "Keytab file missing, expected at c:\vagrant\resources\jb7nd451.keytab"
+  }
+
+  If (Test-Path c:\vagrant\configs\nd451\authentication.cfg) {
+    Write-Host -fore green "Copy Authentication file from c:\vagrant\configs\nd451\authentication.cfg"
+    Copy-Item c:\vagrant\configs\nd451\authentication.cfg c:\seal\customer\server\jboss\conf\authentication.cfg -Confirm:$false
+  } else {
+    Write-Host -fore red "Authentication file missing, expected at c:\vagrant\configs\nd451\authentication.cfg"
+  }
+}
+
 Write-Host "Check $SealSetupInstaller"
 If (Test-Path $SealSetupInstaller) {
   If (-not (Test-Path c:\vagrant\resources\license.ini)) {
@@ -87,7 +106,6 @@ If (Test-Path $SealSetupInstaller) {
   }
 
   & schtasks /Delete /F /TN SealSetup
-#  & schtasks /Create /TN SealSetup /RU vagrant /RP vagrant /XML $XmlFile
   & schtasks /Create /TN SealSetup /XML $XmlFile
   & schtasks /Run /TN SealSetup
 }
