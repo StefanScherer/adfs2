@@ -92,4 +92,26 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define :"nd451" do |nd451|
+    nd451.vm.box = "windows_2008_r2"
+    nd451.vm.hostname = "nd451"
+
+    nd451.windows.set_work_network = true
+    nd451.vm.guest = :windows 
+    nd451.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    nd451.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
+    nd451.vm.network :private_network, ip: "192.168.33.6", gateway: "192.168.33.1", dns: "192.168.33.2"
+
+    nd451.vm.provision "shell", path: "scripts/install.ps1"
+
+    nd451.vm.provider :virtualbox do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 2048]
+      vb.customize ["modifyvm", :id, "--cpus", 2]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+  end
+
 end
