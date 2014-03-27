@@ -7,6 +7,7 @@ The following boxes could be created:
 2. `adfs2` : The Active Directory Federation Service
 3. `web`: The Web Server running IIS
 4. `win7`: A Windows 7 end user 
+5. `nd451`: A Windows Server 2008 R2 with ND 451
 
 ## Installation
 To build the boxes, use the `build.sh` or `build.bat` script with the box name.
@@ -54,6 +55,18 @@ This guest will join the domain.
 ```bash
 ./build.sh win7
 ```
+
+The guest will reboot twice until all features are up and running.
+
+### ND451 Server
+This guest will join the domain.
+
+```bash
+./build.sh nd451
+```
+#### Prerequisites
+You will either need access to `\\roettfs1` or need a local cache
+in `resources/fm/frozen/complete.1.3.1.15_4.5.1a/sealsetup.exe`.
 
 The guest will reboot twice until all features are up and running.
 
