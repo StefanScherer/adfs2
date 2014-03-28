@@ -112,4 +112,10 @@ If (Test-Path $SealSetupInstaller) {
 
 Write-Host "Opening Firewall"
 & netsh advfirewall firewall add rule name="JBoss7 Port 8080" dir=in action=allow protocol=TCP localport=8080
+& netsh advfirewall firewall add rule name="Apache Port 9125" dir=in action=allow protocol=TCP localport=9125
+& netsh advfirewall firewall add rule name="kNet Port 7125" dir=in action=allow protocol=TCP localport=7125
+& netsh advfirewall firewall add rule name="Frans3 Port 7126" dir=in action=allow protocol=TCP localport=7126
+
+# Write-Host "Port Forwarding"
+# & netsh interface portproxy add v4tov4 listenport=80 listenaddress=192.168.33.6 connectport=8080 connectaddress=192.168.33.6
 
