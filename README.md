@@ -70,6 +70,20 @@ in `resources/fm/frozen/complete.1.3.1.15_4.5.1a/sealsetup.exe`.
 
 The guest will reboot twice until all features are up and running.
 
+You also may create a file `resources/license.ini` with the following content and the right password.
+
+```
+[license.exe]
+password = XXXXX
+```
+
+#### Post installation
+After installing ND 451, you may fill in some printers within the ND shell
+
+```
+powershell -file c:\vagrant\scripts\create-queues.ps1
+```
+
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
 Domain Controller should be started first and stopped last.
