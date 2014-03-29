@@ -84,6 +84,33 @@ After installing ND 451, you may fill in some printers within the ND shell
 powershell -file c:\vagrant\scripts\create-queues.ps1
 ```
 
+
+### EP123 Server
+This guest will join the domain.
+
+```bash
+./build.sh ep123
+```
+#### Prerequisites
+You will either need access to `\\roettfs1` or need a local cache
+in `resources/fm/frozen/easyprima.1.2.3/sealsetup.exe`.
+
+The guest will reboot twice until all features are up and running.
+
+You also may create a file `resources/license.ini` with the following content and the right password.
+
+```
+[license.exe]
+password = XXXXX
+```
+
+#### Post installation
+After installing EP 123, you may fill in some printers within the shell, but there is no automation script at the momen.
+
+```
+powershell -file c:\vagrant\scripts\import-ep.ps1
+```
+
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
 Domain Controller should be started first and stopped last.
