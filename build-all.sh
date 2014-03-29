@@ -4,3 +4,4 @@ vagrant destroy -f
 ./build.sh web
 ./build.sh win7
 ./build.sh nd451
+./build.sh ep123

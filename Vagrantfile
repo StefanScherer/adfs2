@@ -99,7 +99,6 @@ Vagrant.configure("2") do |config|
     nd451.windows.set_work_network = true
     nd451.vm.guest = :windows 
     nd451.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-    nd451.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
     nd451.vm.network :private_network, ip: "192.168.33.6", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     nd451.vm.provision "shell", path: "scripts/provision.ps1"
@@ -108,6 +107,27 @@ Vagrant.configure("2") do |config|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+  end
+
+  config.vm.define :"ep123" do |ep123|
+    ep123.vm.box = "windows_2008_r2"
+    ep123.vm.hostname = "ep123"
+
+    ep123.windows.set_work_network = true
+    ep123.vm.guest = :windows 
+    ep123.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    ep123.vm.network :private_network, ip: "192.168.33.7", gateway: "192.168.33.1", dns: "192.168.33.2"
+
+    ep123.vm.provision "shell", path: "scripts/provision.ps1"
+
+    ep123.vm.provider :virtualbox do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 1024]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

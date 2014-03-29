@@ -7,6 +7,7 @@ Try {
 } Catch {}
 
 $identity = "jb7nd451"
+$hostname = "ND451"
 $password = 'MyPa$sw0rd'
 
 Try {
@@ -28,7 +29,8 @@ If (Test-Path c:\vagrant\resources\$identity.keytab) {
   Remove-Item c:\vagrant\resources\$identity.keytab
 }
 
-& ktpass -out c:\vagrant\resources\$identity.keytab -princ 'HTTP/ND451.windomain.local@WINDOMAIN.LOCAL' -mapUser "WINDOMAIN\$identity" -mapOp set -pass $password  -crypto RC4-HMAC-NT
+$servicePrincipalName = 'HTTP/' + $hostname + '.windomain.local@WINDOMAIN.LOCAL'
+& ktpass -out c:\vagrant\resources\$identity.keytab -princ $servicePrincipalName -mapUser "WINDOMAIN\$identity" -mapOp set -pass $password  -crypto RC4-HMAC-NT
 
 If (Test-Path c:\vagrant\resources\$identity.keytab) {
   Write-Host -fore green "Keytab created for user $identity at c:\vagrant\resources\$identity.keytab"
