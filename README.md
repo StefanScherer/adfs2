@@ -8,6 +8,7 @@ The following boxes could be created:
 3. `web`: The Web Server running IIS
 4. `win7`: A Windows 7 end user 
 5. `nd451`: A Windows Server 2008 R2 with ND 451
+6. `ep123`: A Windows Server 2008 R2 with EP 123
 
 ## Installation
 To build the boxes, use the `build.sh` or `build.bat` script with the box name.
@@ -97,12 +98,6 @@ in `resources/fm/frozen/easyprima.1.2.3/sealsetup.exe`.
 
 The guest will reboot twice until all features are up and running.
 
-You also may create a file `resources/license.ini` with the following content and the right password.
-
-```
-[license.exe]
-password = XXXXX
-```
 
 #### Post installation
 After installing EP 123, you may fill in some printers within the shell, but there is no automation script at the momen.
@@ -110,6 +105,16 @@ After installing EP 123, you may fill in some printers within the shell, but the
 ```
 powershell -file c:\vagrant\scripts\import-ep.ps1
 ```
+#### Test Single Sign On
+Single Sign On should work out of the box with the provisioning scripts.
+But you can install the JBoss Negotiation Toolkit for further tests
+
+1. Go to the `ep123` box and open the Ocon Shell
+2. `jb`
+3. `install-jboss-negotiation-toolkit.pl`
+4. Go to the `win7` box and login as `mike.hammer`
+5. Open IE with URL [http://ep123:8080/jboss-negotiation-toolkit/](http://ep123:8080/jboss-negotiation-toolkit/)
+
 
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
