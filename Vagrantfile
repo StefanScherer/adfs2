@@ -92,6 +92,28 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define :"node" do |node|
+    node.vm.box = "windows_81"
+    node.vm.hostname = "node"
+
+    node.windows.set_work_network = true
+    node.vm.guest = :windows 
+    node.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+#    node.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    node.vm.network :private_network, ip: "192.168.33.8", gateway: "192.168.33.1", dns: "192.168.33.2"
+
+    node.vm.provision "shell", path: "scripts/provision.ps1"
+
+    node.vm.provider :virtualbox do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 1536]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+  end
+
   config.vm.define :"nd451" do |nd451|
     nd451.vm.box = "windows_2008_r2"
     nd451.vm.hostname = "nd451"

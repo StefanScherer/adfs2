@@ -3,7 +3,11 @@
   Start-Sleep -m 2000
 
   Write-Host "First, set DNS to DC to join the domain"
-  & 'netsh' 'interface' 'ipv4' 'add' 'dnsserver' 'Local Area Connection 2' 'address=192.168.33.2' 'index=1'
+  if ( [System.Environment]::OSVersion.Version.Build -lt 9600 ) {
+    & 'netsh' 'interface' 'ipv4' 'add' 'dnsserver' 'Local Area Connection 2' 'address=192.168.33.2' 'index=1'
+  } else {
+    & 'netsh' 'interface' 'ipv4' 'add' 'dnsserver' 'Ethernet 2' 'address=192.168.33.2' 'index=1'
+  }
 
   Start-Sleep -m 2000
 
