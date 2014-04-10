@@ -17,9 +17,12 @@ Import-CSV -delimiter ";" c:\vagrant\scripts\users.csv | foreach {
              -AccountPassword (ConvertTo-SecureString -AsPlainText $_.Password -Force) -Enabled $true
 }
 
-New-ADGroup -Name "SecurePrinting" -SamAccountName SecurePrinting -GroupCategory Security -GroupScope Global -DisplayName "Secure Printing Users" -Path "OU=CostCenter,OU=SupportGroups,OU=IT-Services,DC=windomain,DC=local"
+New-ADGroup -Name "SecurePrinting" -SamAccountName SecurePrinting -GroupCategory Security -GroupScope Global -DisplayName "Secure Printing Users" -Path "OU=SupportGroups,OU=IT-Services,DC=windomain,DC=local"
 New-ADGroup -Name "CostCenter-123" -SamAccountName CostCenter-123 -GroupCategory Security -GroupScope Global -DisplayName "CostCenter 123 Users" -Path "OU=CostCenter,OU=SupportGroups,OU=IT-Services,DC=windomain,DC=local"
 New-ADGroup -Name "CostCenter-125" -SamAccountName CostCenter-125 -GroupCategory Security -GroupScope Global -DisplayName "CostCenter 125 Users" -Path "OU=CostCenter,OU=SupportGroups,OU=IT-Services,DC=windomain,DC=local"
 
-Add-ADGroupMember -Identity SecurePrinting -Member mike.hammer
+Add-ADGroupMember -Identity SecurePrinting -Member CostCenter-125
+
+Add-ADGroupMember -Identity CostCenter-125 -Member mike.hammer
+Add-ADGroupMember -Identity CostCenter-123 -Member john.franklin
 
