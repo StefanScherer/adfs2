@@ -156,4 +156,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "loader", primary: true do |loader|
+    loader.vm.box = "precise64"
+    loader.vm.network :private_network, ip: "192.168.33.10", gateway: "192.168.33.1"
+    loader.vm.provision "shell", path: "scripts/provision-loader.sh"
+    loader.vm.hostname = "loader"
+
+     loader.vm.provider :virtualbox do |vb|
+       vb.gui = true
+       vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
+     end
+  end
+
 end
