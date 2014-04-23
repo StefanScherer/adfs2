@@ -9,6 +9,7 @@ The following boxes could be created:
 4. `win7`: A Windows 7 end user 
 5. `nd451`: A Windows Server 2008 R2 with ND 451
 6. `ep123`: A Windows Server 2008 R2 with EP 123
+7. `loader`: A Ubuntu 12.04 LTS box with curl-loader. See [test/curl-loader](test/curl-loader/README.md) for details.
 
 ## Installation
 To build the boxes, use the `build.sh` or `build.bat` script with the box name.
