@@ -2,3 +2,7 @@
 *~
 resources/
 *.swp
+*.ctx
+*.ops
+*.log
+*.txt

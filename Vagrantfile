@@ -148,12 +148,24 @@ Vagrant.configure("2") do |config|
 
     ep123.vm.provider :virtualbox do |vb, override|
       vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", 1536]
-      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--memory", 4096]
+      vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+  end
+
+  config.vm.define "loader", primary: true do |loader|
+    loader.vm.box = "precise64"
+    loader.vm.network :private_network, ip: "192.168.33.10", gateway: "192.168.33.1"
+    loader.vm.provision "shell", path: "scripts/provision-loader.sh"
+    loader.vm.hostname = "loader"
+
+     loader.vm.provider :virtualbox do |vb|
+       vb.gui = true
+       vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2"]
+     end
   end
 
 end
