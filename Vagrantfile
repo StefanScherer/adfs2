@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
     dc.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     dc.vm.network :private_network, ip: "192.168.33.2", gateway: "192.168.33.1"
 
-    dc.vm.provision "shell", path: "scripts/provision.ps1"
+    dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     dc.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
     adfs2.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     adfs2.vm.network :private_network, ip: "192.168.33.3", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    adfs2.vm.provision "shell", path: "scripts/provision.ps1"
+    adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     adfs2.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
     web.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
     web.vm.network :private_network, ip: "192.168.33.4", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    web.vm.provision "shell", path: "scripts/provision.ps1"
+    web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     web.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -99,7 +99,7 @@ Vagrant.configure("2") do |config|
     win7.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     win7.vm.network :private_network, ip: "192.168.33.5", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    win7.vm.provision "shell", path: "scripts/provision.ps1"
+    win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     win7.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -121,7 +121,7 @@ Vagrant.configure("2") do |config|
     nd451.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     nd451.vm.network :private_network, ip: "192.168.33.6", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    nd451.vm.provision "shell", path: "scripts/provision.ps1"
+    nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     nd451.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -143,7 +143,7 @@ Vagrant.configure("2") do |config|
     ep123.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     ep123.vm.network :private_network, ip: "192.168.33.7", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    ep123.vm.provision "shell", path: "scripts/provision.ps1"
+    ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     ep123.vm.provider :virtualbox do |vb, override|
       vb.gui = true
@@ -165,7 +165,7 @@ Vagrant.configure("2") do |config|
     node.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     node.vm.network :private_network, ip: "192.168.33.8", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    node.vm.provision "shell", path: "scripts/provision.ps1"
+    node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     node.vm.provider :virtualbox do |vb, override|
       vb.gui = true
