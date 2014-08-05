@@ -22,6 +22,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      dc.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
   end
 
 
@@ -43,6 +50,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      adfs2.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
     end
   end
 
@@ -67,6 +81,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      web.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
   end
 
 
@@ -90,6 +111,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      win7.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
   end
 
   config.vm.define :"node" do |node|
@@ -112,6 +140,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      node.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
   end
 
   config.vm.define :"nd451" do |nd451|
@@ -132,6 +167,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      nd451.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "2048"
+        v.vmx["numvcpus"] = "2"
+      end
     end
   end
 
@@ -154,6 +196,13 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      ep123.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "4096"
+        v.vmx["numvcpus"] = "2"
+      end
+    end
   end
 
   config.vm.define "loader", primary: true do |loader|
@@ -163,9 +212,15 @@ Vagrant.configure("2") do |config|
     loader.vm.hostname = "loader"
 
      loader.vm.provider :virtualbox do |vb|
-       vb.gui = true
+       vb.gui = false
        vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2"]
      end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      loader.vm.provider provider do |v, override|
+        v.gui = false
+        v.vmx["memsize"] = "1024"
+        v.vmx["numvcpus"] = "2"
+      end
+    end
   end
-
 end
