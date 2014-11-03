@@ -191,7 +191,7 @@ Vagrant.configure("2") do |config|
     ["vmware_fusion", "vmware_workstation"].each do |provider|
       ep123.vm.provider provider do |v, override|
         v.gui = true
-        v.vmx["memsize"] = "4096"
+        v.vmx["memsize"] = "2048"
         v.vmx["numvcpus"] = "2"
       end
     end
