@@ -182,7 +182,7 @@ Vagrant.configure("2") do |config|
 
     ep123.vm.provider :virtualbox do |vb, override|
       vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", 4096]
+      vb.customize ["modifyvm", :id, "--memory", 1536]
       vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
@@ -191,7 +191,7 @@ Vagrant.configure("2") do |config|
     ["vmware_fusion", "vmware_workstation"].each do |provider|
       ep123.vm.provider provider do |v, override|
         v.gui = true
-        v.vmx["memsize"] = "2048"
+        v.vmx["memsize"] = "1536"
         v.vmx["numvcpus"] = "2"
       end
     end
