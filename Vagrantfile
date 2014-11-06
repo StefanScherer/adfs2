@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define :"dc" do |dc|
+  config.vm.define "dc" do |dc|
     dc.vm.box = "windows_2008_r2"
     dc.vm.hostname = "dc"
 
@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define :"adfs2" do |adfs2|
+  config.vm.define "adfs2" do |adfs2|
     adfs2.vm.box = "windows_2008_r2"
     adfs2.vm.hostname = "adfs2"
 
@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define :"web" do |web|
+  config.vm.define "web" do |web|
     web.vm.box = "windows_2008_r2"
     web.vm.hostname = "web"
 
@@ -110,7 +110,7 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define :"win7" do |win7|
+  config.vm.define "win7" do |win7|
     win7.vm.box = "windows_7"
     win7.vm.hostname = "win7"
 
@@ -139,7 +139,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define :"nd451" do |nd451|
+  config.vm.define "nd451" do |nd451|
     nd451.vm.box = "windows_2008_r2"
     nd451.vm.hostname = "nd451"
 
@@ -168,7 +168,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define :"ep123" do |ep123|
+  config.vm.define "ep123" do |ep123|
     ep123.vm.box = "windows_2008_r2"
     ep123.vm.hostname = "ep123"
 
@@ -197,7 +197,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define :"node" do |node|
+  config.vm.define "node" do |node|
     node.vm.box = "windows_81"
     node.vm.hostname = "node"
 
@@ -219,9 +219,39 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "ps" do |ps|
+    ps.vm.box = "windows_2008_r2"
+    ps.vm.hostname = "ps"
+
+    ps.vm.communicator = "winrm"
+    ps.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    ps.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+    ps.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    ps.vm.network :private_network, ip: "192.168.33.9", gateway: "192.168.33.1"
+
+    ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+
+    ps.vm.provider :virtualbox do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 768]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      ps.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
+  end
+
+
   config.vm.define "loader", primary: true do |loader|
     loader.vm.box = "ubuntu1204"
-    loader.vm.network :private_network, ip: "192.168.33.9", gateway: "192.168.33.1"
+    loader.vm.network :private_network, ip: "192.168.33.10", gateway: "192.168.33.1"
     loader.vm.provision "shell", path: "scripts/provision-loader.sh"
     loader.vm.hostname = "loader"
 
