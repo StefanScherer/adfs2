@@ -4,17 +4,17 @@
 Vagrant.configure("2") do |config|
 
   if Vagrant.has_plugin?("vagrant-vcloud")
-    config.vm.provider :vcloud do |vcloud|
+    config.vm.provider "vcloud" do |vcloud|
       vcloud.vapp_prefix = "adfs2"
       vcloud.ip_subnet = "192.168.33.1/255.255.255.0" # our test subnet with fixed IP adresses for everyone
       vcloud.ip_dns = ["192.168.33.2", "8.8.8.8"]  # dc + Google
     end
     if Vagrant.has_plugin?("vagrant-proxyconf")
-      config.vm.provider :vcloud do |cloud, override|
+      config.vm.provider "vcloud" do |cloud, override|
         override.proxy.enabled = false
       end
     end
-    config.vm.provider :vcloud do |cloud, override|
+    config.vm.provider "vcloud" do |cloud, override|
       override.vm.usable_port_range = 2200..2999
     end
   end
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
 
     dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    dc.vm.provider :virtualbox do |vb, override|
+    dc.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
 
     adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    adfs2.vm.provider :virtualbox do |vb, override|
+    adfs2.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -92,7 +92,7 @@ Vagrant.configure("2") do |config|
 
     web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    web.vm.provider :virtualbox do |vb, override|
+    web.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -122,7 +122,7 @@ Vagrant.configure("2") do |config|
 
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    win7.vm.provider :virtualbox do |vb, override|
+    win7.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -151,7 +151,7 @@ Vagrant.configure("2") do |config|
 
     nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    nd451.vm.provider :virtualbox do |vb, override|
+    nd451.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 2048]
       vb.customize ["modifyvm", :id, "--cpus", 2]
@@ -180,7 +180,7 @@ Vagrant.configure("2") do |config|
 
     ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    ep123.vm.provider :virtualbox do |vb, override|
+    ep123.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 1536]
       vb.customize ["modifyvm", :id, "--cpus", 2]
@@ -209,7 +209,7 @@ Vagrant.configure("2") do |config|
 
     node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    node.vm.provider :virtualbox do |vb, override|
+    node.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 1536]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -231,7 +231,7 @@ Vagrant.configure("2") do |config|
 
     ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
-    ps.vm.provider :virtualbox do |vb, override|
+    ps.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
       vb.customize ["modifyvm", :id, "--cpus", 1]
@@ -255,7 +255,7 @@ Vagrant.configure("2") do |config|
     loader.vm.provision "shell", path: "scripts/provision-loader.sh"
     loader.vm.hostname = "loader"
 
-     loader.vm.provider :virtualbox do |vb|
+     loader.vm.provider "virtualbox" do |vb|
        vb.gui = false
        vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "2"]
      end
