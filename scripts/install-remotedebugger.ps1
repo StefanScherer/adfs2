@@ -6,7 +6,7 @@ If (-not (Test-Path "C:\Program Files\Microsoft Visual Studio 11.0\Common7\IDE\R
 
   Write-Host "Installing Visual Studio Remote Debugger"
   $LogFile = $env:Temp + "\rtools_setup.log";
-  & $ExeFile /install /passive /quiet /norestart /log $LogFile
+  Start-Process -FilePath $ExeFile -ArgumentList /install, /passive, /quiet, /norestart, /log, $LogFile -Wait
 
   & netsh advfirewall firewall add rule name="Remote Debugger (x64)" dir=in action=allow program="%SystemDrive%\Program Files\Microsoft Visual Studio 11.0\Common7\IDE\Remote Debugger\x64\msvsmon.exe" enable=yes
   & netsh advfirewall firewall add rule name="Remote Debugger (x86)" dir=in action=allow program="%SystemDrive%\Program Files\Microsoft Visual Studio 11.0\Common7\IDE\Remote Debugger\x86\msvsmon.exe" enable=yes
