@@ -67,11 +67,8 @@ This guest will join the domain.
 ```bash
 ./build.sh nd451
 ```
-#### Prerequisites
-You will either need access to `\\roettfs1` or need a local cache
-in `resources/fm/frozen/complete.1.3.1.15_4.5.1a/sealsetup.exe`.
 
-The guest will reboot twice until all features are up and running.
+The guest will reboot once until all features are up and running.
 
 You also may create a file `resources/license.ini` with the following content and the right password.
 
@@ -94,12 +91,8 @@ This guest will join the domain.
 ```bash
 ./build.sh ep123
 ```
-#### Prerequisites
-You will either need access to `\\roettfs1` or need a local cache
-in `resources/fm/frozen/easyprima.1.2.3/sealsetup.exe`.
 
-The guest will reboot twice until all features are up and running.
-
+The guest will reboot once until all features are up and running.
 
 #### Post installation
 After installing EP 123, you may fill in some printers within the shell, but there is no automation script at the momen.
@@ -107,6 +100,7 @@ After installing EP 123, you may fill in some printers within the shell, but the
 ```
 powershell -file c:\vagrant\scripts\import-ep.ps1
 ```
+
 #### Test Single Sign On
 Single Sign On should work out of the box with the provisioning scripts.
 But you can install the JBoss Negotiation Toolkit for further tests
