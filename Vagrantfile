@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   if Vagrant.has_plugin?("vagrant-vcloud")
     config.vm.provider "vcloud" do |vcloud|
-      vcloud.vapp_prefix = "adfs2"
+      vcloud.vapp_name = "adfs2"
       vcloud.ip_subnet = "192.168.33.1/255.255.255.0" # our test subnet with fixed IP adresses for everyone
       vcloud.ip_dns = ["192.168.33.2", "8.8.8.8"]  # dc + Google
     end
@@ -29,6 +29,8 @@ Vagrant.configure("2") do |config|
     dc.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     dc.vm.network :private_network, ip: "192.168.33.2", gateway: "192.168.33.1"
 
+    dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    dc.vm.provision "reload"
     dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     dc.vm.provider "virtualbox" do |vb, override|
@@ -59,6 +61,8 @@ Vagrant.configure("2") do |config|
     adfs2.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     adfs2.vm.network :private_network, ip: "192.168.33.3", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    adfs2.vm.provision "reload"
     adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     adfs2.vm.provider "virtualbox" do |vb, override|
@@ -91,6 +95,8 @@ Vagrant.configure("2") do |config|
     web.vm.network :private_network, ip: "192.168.33.4", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    web.vm.provision "reload"
+    web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     web.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
@@ -121,6 +127,8 @@ Vagrant.configure("2") do |config|
     win7.vm.network :private_network, ip: "192.168.33.5", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    win7.vm.provision "reload"
+    win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     win7.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
@@ -149,6 +157,8 @@ Vagrant.configure("2") do |config|
     nd451.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     nd451.vm.network :private_network, ip: "192.168.33.6", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    nd451.vm.provision "reload"
     nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     nd451.vm.provider "virtualbox" do |vb, override|
@@ -179,6 +189,8 @@ Vagrant.configure("2") do |config|
     ep123.vm.network :private_network, ip: "192.168.33.7", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ep123.vm.provision "reload"
+    ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     ep123.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
@@ -208,6 +220,8 @@ Vagrant.configure("2") do |config|
     node.vm.network :private_network, ip: "192.168.33.8", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    node.vm.provision "reload"
+    node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     node.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
@@ -229,6 +243,8 @@ Vagrant.configure("2") do |config|
     ps.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     ps.vm.network :private_network, ip: "192.168.33.9", gateway: "192.168.33.1"
 
+    ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ps.vm.provision "reload"
     ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     ps.vm.provider "virtualbox" do |vb, override|
