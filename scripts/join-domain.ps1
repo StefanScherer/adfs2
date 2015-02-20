@@ -13,8 +13,9 @@
 
   Write-Host "Now join the domain"
 
-  $user = "windomain.local\vagrant" 
-  $pass = ConvertTo-SecureString "vagrant" -AsPlainText -Force 
-  $DomainCred = New-Object System.Management.Automation.PSCredential $user, $pass 
+  $user = "windomain.local\vagrant"
+  $pass = ConvertTo-SecureString "vagrant" -AsPlainText -Force
+  $DomainCred = New-Object System.Management.Automation.PSCredential $user, $pass
   Add-Computer -DomainName "windomain.local" -credential $DomainCred -PassThru
 
+  Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DefaultDomainName -Value "WINDOMAIN"
