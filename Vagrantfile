@@ -2,10 +2,9 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-
   if Vagrant.has_plugin?("vagrant-vcloud")
     config.vm.provider "vcloud" do |vcloud|
-      vcloud.vapp_name = "adfs2"
+      vcloud.vapp_prefix = "adfs2"
       vcloud.ip_subnet = "192.168.33.1/255.255.255.0" # our test subnet with fixed IP adresses for everyone
       vcloud.ip_dns = ["192.168.33.2", "8.8.8.8"]  # dc + Google
     end
