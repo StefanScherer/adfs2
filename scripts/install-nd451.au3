@@ -30,7 +30,7 @@ Send("{TAB}")
 Sleep(500)
 Send("vagrant") ; Password
 Send("{TAB}")
-Send("") ; Domain (Optional)
+Send("windomain") ; Domain (Optional)
 Send("{TAB}")
 Sleep(5000)
 Send ("!n") ; Next
@@ -58,7 +58,7 @@ Send("!n") ; Next
 ; WinWait("Open File", "inst_package.pl")
 ; Sleep(500)
 ; WinActivate("Open File")
-; 
+;
 ; Send("!o") ; Open
 
 
@@ -163,7 +163,7 @@ Send("!f") ; Finish
 ; WinWait("Open File", "addlocalsystem.pl")
 ; Sleep(500)
 ; WinActivate("Open File")
-; 
+;
 ; Send("!o") ; Open
 
 ConsoleWrite("Done!" & @CRLF)
