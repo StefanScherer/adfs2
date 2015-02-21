@@ -158,6 +158,8 @@ Vagrant.configure("2") do |config|
 
     nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     nd451.vm.provision "reload"
+    # just another reload to fix computername
+    nd451.vm.provision "reload"
     nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
     nd451.vm.provider "virtualbox" do |vb, override|
@@ -188,6 +190,8 @@ Vagrant.configure("2") do |config|
     ep123.vm.network :private_network, ip: "192.168.33.7", gateway: "192.168.33.1", dns: "192.168.33.2"
 
     ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ep123.vm.provision "reload"
+    # just another reload to fix computername
     ep123.vm.provision "reload"
     ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 

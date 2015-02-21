@@ -30,7 +30,7 @@ Send("{TAB}")
 Sleep(500)
 Send("vagrant") ; Password
 Send("{TAB}")
-Send("windomain") ; Domain (Optional)
+Send("") ; Domain (Optional)
 Send("{TAB}")
 Sleep(5000)
 Send ("!n") ; Next

@@ -18,4 +18,4 @@
   $DomainCred = New-Object System.Management.Automation.PSCredential $user, $pass
   Add-Computer -DomainName "windomain.local" -credential $DomainCred -PassThru
 
-  Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DefaultDomainName -Value "WINDOMAIN"
+###  Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DefaultDomainName -Value "WINDOMAIN"
