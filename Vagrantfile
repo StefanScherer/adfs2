@@ -28,6 +28,8 @@ Vagrant.configure("2") do |config|
     dc.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     dc.vm.network :private_network, ip: "192.168.33.2", gateway: "192.168.33.1"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    dc.vm.provision "reload"
     dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     dc.vm.provision "reload"
     dc.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -60,6 +62,8 @@ Vagrant.configure("2") do |config|
     adfs2.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     adfs2.vm.network :private_network, ip: "192.168.33.3", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    adfs2.vm.provision "reload"
     adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     adfs2.vm.provision "reload"
     adfs2.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -93,6 +97,8 @@ Vagrant.configure("2") do |config|
     web.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
     web.vm.network :private_network, ip: "192.168.33.4", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    web.vm.provision "reload"
     web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     web.vm.provision "reload"
     web.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -125,6 +131,8 @@ Vagrant.configure("2") do |config|
     win7.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     win7.vm.network :private_network, ip: "192.168.33.5", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    win7.vm.provision "reload"
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     win7.vm.provision "reload"
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -156,9 +164,9 @@ Vagrant.configure("2") do |config|
     nd451.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     nd451.vm.network :private_network, ip: "192.168.33.6", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
     nd451.vm.provision "reload"
-    # just another reload to fix computername
+    nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     nd451.vm.provision "reload"
     nd451.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
@@ -189,9 +197,9 @@ Vagrant.configure("2") do |config|
     ep123.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     ep123.vm.network :private_network, ip: "192.168.33.7", gateway: "192.168.33.1", dns: "192.168.33.2"
 
-    ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
     ep123.vm.provision "reload"
-    # just another reload to fix computername
+    ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     ep123.vm.provision "reload"
     ep123.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
@@ -222,6 +230,8 @@ Vagrant.configure("2") do |config|
     node.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     node.vm.network :private_network, ip: "192.168.33.8", gateway: "192.168.33.1", dns: "192.168.33.2"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    node.vm.provision "reload"
     node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     node.vm.provision "reload"
     node.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -246,6 +256,8 @@ Vagrant.configure("2") do |config|
     ps.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     ps.vm.network :private_network, ip: "192.168.33.9", gateway: "192.168.33.1"
 
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    ps.vm.provision "reload"
     ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     ps.vm.provision "reload"
     ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
