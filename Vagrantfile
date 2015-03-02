@@ -279,6 +279,38 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "ps2" do |ps|
+    ps.vm.box = "windows_2008_r2"
+    ps.vm.hostname = "ps2"
+
+    ps.vm.communicator = "winrm"
+    ps.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    ps.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+    ps.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    ps.vm.network :private_network, ip: "192.168.33.9", gateway: "192.168.33.1"
+
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    ps.vm.provision "reload"
+    ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ps.vm.provision "reload"
+    ps.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+
+    ps.vm.provider "virtualbox" do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 768]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      ps.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
+  end
 
   config.vm.define "loader", primary: true do |loader|
     loader.vm.box = "ubuntu1204"
@@ -298,4 +330,39 @@ Vagrant.configure("2") do |config|
       end
     end
   end
+
+  config.vm.define "ts" do |ts|
+    ts.vm.box = "windows_2008_r2"
+    ts.vm.hostname = "ts"
+
+    ts.vm.communicator = "winrm"
+    ts.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    ts.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+    ts.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    ts.vm.network :private_network, ip: "192.168.33.15", gateway: "192.168.33.1"
+
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    ts.vm.provision "reload"
+    ts.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ts.vm.provision "reload"
+    ts.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ts.vm.provision "reload"
+
+    ts.vm.provider "virtualbox" do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 768]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      ts.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
+  end
+
 end
