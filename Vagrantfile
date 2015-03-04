@@ -136,6 +136,8 @@ Vagrant.configure("2") do |config|
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     win7.vm.provision "reload"
     win7.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    # reload after enabling UAC
+    win7.vm.provision "reload"
 
     win7.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
