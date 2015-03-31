@@ -7,6 +7,4 @@ Write-Host "Additional steps on terminal server"
 # using powershell
 # http://blogs.technet.com/b/manojnair/archive/2011/12/02/rds-powershell-tfm-part-i-installing-remote-desktop-role-services.aspx
 
-Import-Module ServerManager
-
-Add-WindowsFeature –Name "RDS-RD-Server" –IncludeAllSubFeature
+. c:\vagrant\scripts\install-terminalserver.ps1
