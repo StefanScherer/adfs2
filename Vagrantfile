@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define "adfs2" do |adfs2|
+  config.vm.define "adfs2", autostart: false do |adfs2|
     adfs2.vm.box = "windows_2008_r2"
     adfs2.vm.hostname = "adfs2"
 
@@ -86,7 +86,7 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define "web" do |web|
+  config.vm.define "web", autostart: false do |web|
     web.vm.box = "windows_2008_r2"
     web.vm.hostname = "web"
 
@@ -222,7 +222,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "node" do |node|
+  config.vm.define "node", autostart: false do |node|
     node.vm.box = "windows_81"
     node.vm.hostname = "node"
 
@@ -248,7 +248,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ps" do |ps|
+  config.vm.define "ps", autostart: false do |ps|
     ps.vm.box = "windows_2008_r2"
     ps.vm.hostname = "ps"
 
@@ -281,7 +281,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ps2" do |ps|
+  config.vm.define "ps2", autostart: false do |ps|
     ps.vm.box = "windows_2008_r2"
     ps.vm.hostname = "ps2"
 
@@ -314,7 +314,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "loader", primary: true do |loader|
+  config.vm.define "loader", autostart: false do |loader|
     loader.vm.box = "ubuntu1204"
     loader.vm.network :private_network, ip: "192.168.33.10", gateway: "192.168.33.1"
     loader.vm.provision "shell", path: "scripts/provision-loader.sh"
@@ -333,7 +333,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ts" do |ts|
+  config.vm.define "ts", autostart: false do |ts|
     ts.vm.box = "windows_2008_r2"
     ts.vm.hostname = "ts"
 
@@ -357,6 +357,41 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+    end
+    ["vmware_fusion", "vmware_workstation"].each do |provider|
+      ts.vm.provider provider do |v, override|
+        v.gui = true
+        v.vmx["memsize"] = "768"
+        v.vmx["numvcpus"] = "1"
+      end
+    end
+  end
+
+  config.vm.define "xen", autostart: false do |ts|
+    ts.vm.box = "windows_2008_r2"
+    ts.vm.hostname = "xen"
+
+    ts.vm.communicator = "winrm"
+    ts.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
+    ts.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
+    ts.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
+    ts.vm.network :private_network, ip: "192.168.33.16", gateway: "192.168.33.1"
+
+    # workaround for Vagrant 1.7.2: do an extra reload after hostname change, otherwise we have problems with domain join
+    ts.vm.provision "reload"
+    ts.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ts.vm.provision "reload"
+    ts.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
+    ts.vm.provision "reload"
+
+    ts.vm.provider "virtualbox" do |vb, override|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", 1536]
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--vram", "32"]
+      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+      vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "resources/XAF_6_0_0_ML_dvd.iso"]
     end
     ["vmware_fusion", "vmware_workstation"].each do |provider|
       ts.vm.provider provider do |v, override|

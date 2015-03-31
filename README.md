@@ -11,6 +11,8 @@ The following boxes could be created:
 6. `ep123`: A Windows Server 2008 R2 with EP 123
 7. `loader`: A Ubuntu 12.04 LTS box with curl-loader. See [test/curl-loader](/adfs2/test/curl-loader/README.md) for details.
 8. `ps`: A Windows Print Server
+9. `ts``: A Windows Terminal Server
+10. `xen`: A Citrix XenApp Terminal Server (requires external DVD ISO file and manual installation steps)
 
 ## Installation
 To build the boxes, use the `build.sh` or `build.bat` script with the box name.
@@ -131,4 +133,3 @@ vagrant halt dc
 Rebooting the windows guest while provisioning could be done with [vagrant-provision-reboot](https://github.com/exratione/vagrant-provision-reboot) plugin.
 But this plugin does not work with my Vagrant 1.5.1 installation. But with something like that we could get rid
 of the build host scripts and customize everything inside the Vagrantfile.
-
