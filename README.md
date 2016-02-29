@@ -11,7 +11,7 @@ The following boxes could be created:
 6. `ep123`: A Windows Server 2008 R2 with EP 123
 7. `loader`: A Ubuntu 12.04 LTS box with curl-loader. See [test/curl-loader](/adfs2/test/curl-loader/README.md) for details.
 8. `ps`: A Windows Print Server
-9. `ts``: A Windows Terminal Server
+9. `ts`: A Windows Terminal Server
 10. `xen`: A Citrix XenApp Terminal Server (requires external DVD ISO file and manual installation steps)
 
 ## Installation
@@ -27,7 +27,7 @@ First create the AD domain controller
 ./build.sh dc
 ```
 
-After that the domain `windomain.local` is up and running at IP address `192.168.33.2`.
+After that the domain `windomain.local` is up and running at IP address `192.168.38.2`.
 Some users will be created from the `users.csv` file.
 A special service user will be created for JBoss7 integration and its keytab file for SSO.
 
