@@ -3,7 +3,7 @@
 
 Write-Host "Downloading iisnode"
 $MsiFile = $env:Temp + '\iisnode.msi'
-(New-Object Net.WebClient).DownloadFile('http://go.microsoft.com/?linkid=9784331', $MsiFile)
+(New-Object Net.WebClient).DownloadFile('https://github.com/tjanczuk/iisnode/releases/download/v0.2.21/iisnode-full-v0.2.21-x64.msi', $MsiFile)
 Write-Host "Installing iisnode"
 & msiexec '/i' $MsiFile '/quiet' '/norestart'
 
@@ -17,10 +17,10 @@ Write-Host "Installing URL Rewrite Module"
 
 Start-Sleep -m 5000
 
-$NodeVersion = "0.10.26"
+$NodeVersion = "4.4.3"
 Write-Host "Downloading Node.js $NodeVersion"
 $MsiFile = $env:Temp + '\nodejs.msi'
-(New-Object Net.WebClient).DownloadFile('http://nodejs.org/dist/v0.10.26/x64/node-v0.10.26-x64.msi', $MsiFile)
+(New-Object Net.WebClient).DownloadFile('https://nodejs.org/dist/v4.4.3/node-v4.4.3-x64.msi', $MsiFile)
 Write-Host "Installing Node.js"
 & msiexec '/i' $MsiFile '/quiet' '/norestart'
 
