@@ -25,7 +25,7 @@ if (!(Test-Path $ChocoInstallPath)) {
 #$chocoPkgFile = get-childitem $resourcesPath -recurse -include 'chocolatey.*.nupkg' | select -First 1
 #
 #if ($chocoPkgFile -ne $null) {
-#    cinst chocolatey -pre -force -source "$resourcesPath"
+#    choco install -y chocolatey -pre -force -source "$resourcesPath"
 #} else {
-#    cinst chocolatey -pre
+#    choco install -y chocolatey -pre
 #}

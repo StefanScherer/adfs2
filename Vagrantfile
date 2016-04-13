@@ -120,9 +120,9 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "nd451" do |cfg|
+  config.vm.define "nd" do |cfg|
     cfg.vm.box = "windows_2012_r2"
-    cfg.vm.hostname = "nd451"
+    cfg.vm.hostname = "nd"
 
     cfg.vm.communicator = "winrm"
     cfg.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
@@ -144,9 +144,9 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ep123" do |cfg|
+  config.vm.define "ep" do |cfg|
     cfg.vm.box = "windows_2012_r2"
-    cfg.vm.hostname = "ep123"
+    cfg.vm.hostname = "ep"
 
     cfg.vm.communicator = "winrm"
     cfg.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
@@ -302,57 +302,4 @@ Vagrant.configure("2") do |config|
       vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "dvddrive", "--medium", "resources/XAF_6_0_0_ML_dvd.iso"]
     end
   end
-
-  config.vm.define "sw-01", autostart: false do |cfg|
-    cfg.vm.box = "windows_2016_docker"
-    cfg.vm.hostname = "sw-01"
-
-    cfg.vm.communicator = "winrm"
-    cfg.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-    cfg.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
-    cfg.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    cfg.vm.network :private_network, ip: "192.168.38.21", gateway: "192.168.38.1"
-
-    cfg.vm.provision "shell", path: "scripts/sysprep.ps1", privileged: false
-    cfg.vm.provision "reload"
-    cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
-    cfg.vm.provision "reload"
-    cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
-
-    cfg.vm.provider "virtualbox" do |vb, override|
-      vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", 2048]
-      vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--vram", "32"]
-      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
-    end
-  end
-
-  config.vm.define "sw-02", autostart: false do |cfg|
-    cfg.vm.box = "windows_2016_docker"
-    cfg.vm.hostname = "sw-02"
-
-    cfg.vm.communicator = "winrm"
-    cfg.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-    cfg.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", auto_correct: true
-    cfg.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    cfg.vm.network :private_network, ip: "192.168.38.22", gateway: "192.168.38.1"
-
-    cfg.vm.provision "shell", path: "scripts/sysprep.ps1", privileged: false
-    cfg.vm.provision "reload"
-    cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
-    cfg.vm.provision "reload"
-    cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
-
-    cfg.vm.provider "virtualbox" do |vb, override|
-      vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", 2048]
-      vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--vram", "32"]
-      vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
-    end
-  end
-
 end

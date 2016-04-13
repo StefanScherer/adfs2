@@ -3,5 +3,5 @@ vagrant destroy -f
 ./build.sh adfs2
 ./build.sh web
 ./build.sh win7
-./build.sh nd451
-./build.sh ep123
+./build.sh nd
+./build.sh ep

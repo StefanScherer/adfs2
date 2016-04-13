@@ -7,8 +7,8 @@ The following boxes could be created:
 2. `adfs2` : The Active Directory Federation Service
 3. `web`: The Web Server running IIS
 4. `win7`: A Windows 7 end user
-5. `nd451`: A Windows Server 2008 R2 with ND 451
-6. `ep123`: A Windows Server 2008 R2 with EP 123
+5. `nd`: A Windows Server 2008 R2 with ND 451
+6. `ep`: A Windows Server 2008 R2 with EP 123
 7. `loader`: A Ubuntu 12.04 LTS box with curl-loader. See [test/curl-loader](/adfs2/test/curl-loader/README.md) for details.
 8. `ps`: A Windows Print Server
 9. `ts`: A Windows Terminal Server
@@ -63,11 +63,11 @@ This guest will join the domain.
 
 The guest will reboot twice until all features are up and running.
 
-### ND451 Server
+### ND Server
 This guest will join the domain.
 
 ```bash
-./build.sh nd451
+./build.sh nd
 ```
 
 The guest will reboot once until all features are up and running.
@@ -87,11 +87,11 @@ powershell -file c:\vagrant\scripts\create-queues.ps1
 ```
 
 
-### EP123 Server
+### EP Server
 This guest will join the domain.
 
 ```bash
-./build.sh ep123
+./build.sh ep
 ```
 
 The guest will reboot once until all features are up and running.
@@ -107,11 +107,11 @@ powershell -file c:\vagrant\scripts\import-ep.ps1
 Single Sign On should work out of the box with the provisioning scripts.
 But you can install the JBoss Negotiation Toolkit for further tests
 
-1. Go to the `ep123` box and open the Ocon Shell
+1. Go to the `ep` box and open the Ocon Shell
 2. `jb`
 3. `install-jboss-negotiation-toolkit.pl`
 4. Go to the `win7` box and login as `mike.hammer`
-5. Open IE with URL [http://ep123:8080/jboss-negotiation-toolkit/](http://ep123:8080/jboss-negotiation-toolkit/)
+5. Open IE with URL [http://ep:8080/jboss-negotiation-toolkit/](http://ep:8080/jboss-negotiation-toolkit/)
 
 
 ## Normal Use
