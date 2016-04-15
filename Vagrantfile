@@ -85,8 +85,8 @@ Vagrant.configure("2") do |config|
 
     cfg.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", 768]
-      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--memory", 2048]
+      vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.customize ["modifyvm", :id, "--vram", "32"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
