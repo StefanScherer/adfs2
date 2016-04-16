@@ -6,13 +6,8 @@ The following boxes could be created:
 1. `dc` : The Active Directory Domain controller
 2. `adfs2` : The Active Directory Federation Service
 3. `web`: The Web Server running IIS
-4. `win7`: A Windows 7 end user
-5. `nd`: A Windows Server 2012 R2 with netDome 4.5.2
-6. `ep`: A Windows Server 2012 R2 with easyPRIMA 1.2.4
-7. `loader`: A Ubuntu 12.04 LTS box with curl-loader. See [test/curl-loader](/adfs2/test/curl-loader/README.md) for details.
-8. `ps08`: A Windows Print Server on Windows Server 2008 R2
-9. `ps`: A Windows Print Server on Windows Server 2012 R2
-10. `ts`: A Windows Terminal Server
+4. `ps`: A Windows Print Server on Windows Server 2012 R2
+5. `ts`: A Windows Terminal Server
 
 ## Installation
 To build the boxes, use `vagrant up` with the box name.
