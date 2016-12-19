@@ -24,6 +24,12 @@ Vagrant.configure("2") do |config|
     cfg.vm.provision "reload"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
 
+    cfg.vm.provider "vmware_fusion" do |v, override|
+      v.memory = 768
+      v.cpus = 1
+      v.gui = true
+    end
+
     cfg.vm.provider "virtualbox" do |vb, override|
       vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", 768]
@@ -45,7 +51,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     cfg.vm.network :private_network, ip: "192.168.38.3", gateway: "192.168.38.1", dns: "192.168.38.2"
 
-    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.3 -dns 192.168.33.2"
+    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.3 -dns 192.168.38.2"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     cfg.vm.provision "reload"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -72,7 +78,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.network :forwarded_port, guest: 80, host: 8080, id: "http", auto_correct: true
     cfg.vm.network :private_network, ip: "192.168.38.4", gateway: "192.168.38.1", dns: "192.168.38.2"
 
-    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.4 -dns 192.168.33.2"
+    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.4 -dns 192.168.38.2"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     cfg.vm.provision "shell", path: "scripts/increase-tcp-num-connections.ps1", privileged: false
     cfg.vm.provision "shell", path: "scripts/install-chocolatey.ps1", privileged: false
@@ -101,7 +107,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     cfg.vm.network :private_network, ip: "192.168.38.9", gateway: "192.168.38.1"
 
-    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.9 -dns 192.168.33.2"
+    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.9 -dns 192.168.38.2"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     cfg.vm.provision "reload"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
@@ -127,7 +133,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct: true
     cfg.vm.network :private_network, ip: "192.168.38.15", gateway: "192.168.38.1"
 
-    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.15 -dns 192.168.33.2"
+    cfg.vm.provision "shell", path: "scripts/fix-second-network.ps1", privileged: false, args: "-ip 192.168.38.15 -dns 192.168.38.2"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
     cfg.vm.provision "reload"
     cfg.vm.provision "shell", path: "scripts/provision.ps1", privileged: false
