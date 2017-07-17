@@ -10,6 +10,13 @@ The following boxes could be created:
 5. `ts`: A Windows Terminal Server
 
 ## Installation
+
+This `Vagrantfile` uses the [`vagrant-reload`](https://github.com/aidanns/vagrant-reload) plugin to reboot the Windows VM's during provisioning. If you don't have this plugin installed, do it now with
+
+```bash
+vagrant plugin install vagrant-reload
+```
+
 To build the boxes, use `vagrant up` with the box name.
 Each box will be reboot twice until all features are up and running.
 
