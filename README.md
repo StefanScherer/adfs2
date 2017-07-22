@@ -62,57 +62,6 @@ vagrant up win7 --provider virtualbox
 
 The guest will reboot twice until all features are up and running.
 
-### ND Server
-This guest will join the domain.
-
-```bash
-vagrant up nd --provider virtualbox
-```
-
-The guest will reboot once until all features are up and running.
-
-You also may create a file `resources/license.ini` with the following content and the right password.
-
-```
-[license.exe]
-password = XXXXX
-```
-
-#### Post installation
-After installing ND 451, you may fill in some printers within the ND shell
-
-```
-powershell -file c:\vagrant\scripts\create-queues.ps1
-```
-
-
-### EP Server
-This guest will join the domain.
-
-```bash
-vagrant up ep --provider virtualbox
-```
-
-The guest will reboot once until all features are up and running.
-
-#### Post installation
-After installing EP 123, you may fill in some printers within the shell, but there is no automation script at the momen.
-
-```
-powershell -file c:\vagrant\scripts\import-ep.ps1
-```
-
-#### Test Single Sign On
-Single Sign On should work out of the box with the provisioning scripts.
-But you can install the JBoss Negotiation Toolkit for further tests
-
-1. Go to the `ep` box and open the Ocon Shell
-2. `jb`
-3. `install-jboss-negotiation-toolkit.pl`
-4. Go to the `win7` box and login as `mike.hammer`
-5. Open IE with URL [http://ep:8080/jboss-negotiation-toolkit/](http://ep:8080/jboss-negotiation-toolkit/)
-
-
 ## Normal Use
 After setting up all boxes, you simply can start and stop the boxes, but the
 Domain Controller should be started first and stopped last.
