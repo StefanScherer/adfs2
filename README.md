@@ -24,7 +24,7 @@ Each box will be reboot twice until all features are up and running.
 First create the AD domain controller
 
 ```bash
-vagrant up dc --provider virtualbox
+vagrant up dc
 ```
 
 After that the domain `windomain.local` is up and running at IP address `192.168.38.2`.
@@ -35,7 +35,7 @@ A special service user will be created for JBoss7 integration and its keytab fil
 This guest will join the domain and install the ADFS2.
 
 ```bash
-vagrant up adfs2 --provider virtualbox
+vagrant up adfs2
 ```
 
 I don't know if the ADFS2 is set up correctly. I just managed the domain join.
@@ -44,7 +44,7 @@ I don't know if the ADFS2 is set up correctly. I just managed the domain join.
 This guest will join the domain and set up an IIS Web Server on host `web`.
 
 ```bash
-vagrant up web --provider virtualbox
+vagrant up web
 ```
 
 After installation, you have an IIS 7 Web Server, but also an [iisnode](https://github.com/tjanczuk/iisnode) with Node.js up and running.
@@ -52,13 +52,6 @@ After installation, you have an IIS 7 Web Server, but also an [iisnode](https://
 * [http://web.windomain.local/](http://localhost:8080/)
 * [http://web.windomain.local/node](http://localhost:8080/node)
 
-
-### Create Windows 7 Client
-This guest will join the domain.
-
-```bash
-vagrant up win7 --provider virtualbox
-```
 
 The guest will reboot twice until all features are up and running.
 
@@ -69,8 +62,6 @@ Domain Controller should be started first and stopped last.
 ```bash
 vagrant up dc
 vagrant up web
-vagrant up win7
-vagrant halt win7
 vagrant halt web
 vagrant halt dc
 ```
