@@ -1,6 +1,8 @@
 
 # https://github.com/tjanczuk/iisnode
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 Write-Host "Downloading iisnode"
 $MsiFile = $env:Temp + '\iisnode.msi'
 (New-Object Net.WebClient).DownloadFile('https://github.com/tjanczuk/iisnode/releases/download/v0.2.21/iisnode-full-v0.2.21-x64.msi', $MsiFile)
